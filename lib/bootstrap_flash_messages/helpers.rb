@@ -1,7 +1,8 @@
 module BootstrapFlashMessages
   module Helpers
     def flash_messages(*args)
-      if flash.present?
+      flash_messages = flash.select{|_, value| value.present?} 
+      if flash_messages.present?
         block = args.include?(:block)
         show_heading = args.include?(:heading)
         show_close = args.include?(:close)
@@ -10,7 +11,7 @@ module BootstrapFlashMessages
         fade = args.include?(:fade)
         
         messages = []
-        flash.each do |key, value|
+        flash_messages.each do |key, value|
           next if key == :timedout
           
           heading = ""
